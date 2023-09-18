@@ -1,5 +1,5 @@
 # Ultroid - UserBot
-# Copyright (C) 2021-2022 TeamUltroid
+# Copyright (C) 2021-2023 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
@@ -13,8 +13,9 @@
 • `{i}unlock <msgs/media/sticker/gif/games/inline/polls/invites/pin/changeinfo>`
     UNLOCK the Used Setting in Used Group.
 """
-from pyUltroid.functions.admins import lock_unlock
 from telethon.tl.functions.messages import EditChatDefaultBannedRightsRequest
+
+from pyUltroid.fns.admins import lock_unlock
 
 from . import ultroid_cmd
 

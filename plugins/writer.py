@@ -1,9 +1,10 @@
 # Ultroid - UserBot
-# Copyright (C) 2021-2022 TeamUltroid
+# Copyright (C) 2021-2023 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
 # <https://www.github.com/TeamUltroid/Ultroid/blob/main/LICENSE/>.
+
 """
 ✘ Commands Available -
 
@@ -24,8 +25,7 @@ from . import async_searcher, eod, get_string, text_set, ultroid_cmd
 
 @ultroid_cmd(pattern="gethtml( (.*)|$)")
 async def ghtml(e):
-    txt = e.pattern_match.group(1).strip()
-    if txt:
+    if txt := e.pattern_match.group(1).strip():
         link = e.text.split(maxsplit=1)[1]
     else:
         return await eod(e, "`Either reply to any file or give any text`")

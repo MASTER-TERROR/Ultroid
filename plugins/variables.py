@@ -1,5 +1,5 @@
 # Ultroid - UserBot
-# Copyright (C) 2021-2022 TeamUltroid
+# Copyright (C) 2021-2023 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
@@ -74,7 +74,7 @@ async def get_var(event):
             await eor(x, "Such a var doesn't exist!", time=5)
 
     elif opt == "db":
-        val = udB.get_key(varname)
+        val = udB.get(varname)
         if val is not None:
             await x.edit(f"**Key** - `{varname}`\n**Value**: `{val}`")
         else:

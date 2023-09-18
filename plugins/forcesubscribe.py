@@ -1,5 +1,5 @@
 # Ultroid - UserBot
-# Copyright (C) 2021-2022 TeamUltroid
+# Copyright (C) 2021-2023 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
@@ -22,7 +22,6 @@
 
 import re
 
-from pyUltroid.dB.forcesub_db import add_forcesub, get_forcesetting, rem_forcesub
 from telethon.errors.rpcerrorlist import ChatAdminRequiredError, UserNotParticipantError
 from telethon.tl.custom import Button
 from telethon.tl.functions.channels import GetParticipantRequest
@@ -33,6 +32,8 @@ from telethon.tl.types import (
     ChannelParticipantLeft,
     User,
 )
+
+from pyUltroid.dB.forcesub_db import add_forcesub, get_forcesetting, rem_forcesub
 
 from . import (
     LOGS,
@@ -89,10 +90,12 @@ async def fcall(e):
     cl = await ultroid_bot.get_entity(int(spli[1]))
     text = f"Hi {inline_mention(user)}, You Need to Join"
     text += f" {cl.title} in order to Chat in this Group."
-    if not cl.username:
-        el = (await ultroid_bot(ExportChatInviteRequest(cl))).link
-    else:
-        el = "https://t.me/" + cl.username
+    el = (
+        f"https://t.me/{cl.username}"
+        if cl.username
+        else (await ultroid_bot(ExportChatInviteRequest(cl))).link
+    )
+
     res = [
         await e.builder.article(
             title="forcesub",

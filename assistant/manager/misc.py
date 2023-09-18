@@ -1,5 +1,5 @@
 # Ultroid - UserBot
-# Copyright (C) 2021-2022 TeamUltroid
+# Copyright (C) 2021-2023 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
@@ -9,7 +9,9 @@
 import random
 
 import aiohttp
+
 from pyUltroid.dB import DEVLIST
+from pyUltroid.fns.admins import admin_check
 
 from . import *
 
@@ -24,8 +26,9 @@ async def dheh(e):
 
 @asst_cmd(pattern="echo( (.*)|$)")
 async def oqha(e):
-    match = e.pattern_match.group(1).strip()
-    if match:
+    if not await admin_check(e):
+        return
+    if match := e.pattern_match.group(1).strip():
         text = match
         reply_to = e
     elif e.is_reply:

@@ -1,5 +1,5 @@
 # Ultroid - UserBot
-# Copyright (C) 2021-2022 TeamUltroid
+# Copyright (C) 2021-2023 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
@@ -21,7 +21,7 @@ import math
 import shutil
 from random import choice
 
-from pyUltroid.functions import some_random_headers
+from pyUltroid.fns import some_random_headers
 
 from . import (
     HOSTED_ON,
@@ -41,6 +41,8 @@ if HOSTED_ON == "heroku":
     heroku_api, app_name = Var.HEROKU_API, Var.HEROKU_APP_NAME
     try:
         if heroku_api and app_name:
+            import heroku3
+
             Heroku = heroku3.from_key(heroku_api)
             app = Heroku.app(app_name)
             HEROKU_API = heroku_api
@@ -137,9 +139,10 @@ async def heroku_usage():
     AppHours = math.floor(AppQuotaUsed / 60)
     AppMinutes = math.floor(AppQuotaUsed % 60)
     total, used, free = shutil.disk_usage(".")
+    _ = shutil.disk_usage("/")
+    disk = _.used / _.total * 100
     cpuUsage = psutil.cpu_percent()
     memory = psutil.virtual_memory().percent
-    disk = psutil.disk_usage("/").percent
     upload = humanbytes(psutil.net_io_counters().bytes_sent)
     down = humanbytes(psutil.net_io_counters().bytes_recv)
     TOTAL = humanbytes(total)
@@ -165,16 +168,16 @@ async def heroku_usage():
 
 
 def db_usage():
-    if udB.name == "Redis":
+    if udB.name == "Mongo":
+        total = 512
+    elif udB.name == "Redis":
         total = 30
     elif udB.name == "SQL":
         total = 20
-    elif udB.name == "Mongo":
-        total = 512
     total = total * (2**20)
     used = udB.usage
-    a = humanbytes(used) + "/" + humanbytes(total)
-    b = str(round((used / total) * 100, 2)) + "%"
+    a = f"{humanbytes(used)}/{humanbytes(total)}"
+    b = f"{str(round((used / total) * 100, 2))}%"
     return f"**{udB.name}**\n\n**Storage Used**: `{a}`\n**Usage percentage**: **{b}**"
 
 

@@ -1,5 +1,5 @@
 # Ultroid - UserBot
-# Copyright (C) 2021-2022 TeamUltroid
+# Copyright (C) 2021-2023 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
@@ -32,6 +32,9 @@
 """
 import os
 
+from telegraph import upload_file as uf
+from telethon.utils import pack_bot_file_id
+
 from pyUltroid.dB.greetings_db import (
     add_goodbye,
     add_thanks,
@@ -43,9 +46,7 @@ from pyUltroid.dB.greetings_db import (
     must_thank,
     remove_thanks,
 )
-from pyUltroid.functions.tools import create_tl_btn, format_btn, get_msg_button
-from telegraph import upload_file as uf
-from telethon.utils import pack_bot_file_id
+from pyUltroid.fns.tools import create_tl_btn, format_btn, get_msg_button
 
 from . import HNDLR, eor, get_string, mediainfo, ultroid_cmd
 from ._inline import something
@@ -68,14 +69,14 @@ async def setwel(event):
             dl = await r.download_media()
             variable = uf(dl)
             os.remove(dl)
-            m = "https://telegra.ph" + variable[0]
+            m = f"https://graph.org{variable[0]}"
         elif wut == "video":
             if r.media.document.size > 8 * 1000 * 1000:
                 return await eor(x, get_string("com_4"), time=5)
             dl = await r.download_media()
             variable = uf(dl)
             os.remove(dl)
-            m = "https://telegra.ph" + variable[0]
+            m = f"https://graph.org{variable[0]}"
         elif wut == "web":
             m = None
         else:
@@ -133,14 +134,14 @@ async def setgb(event):
             dl = await r.download_media()
             variable = uf(dl)
             os.remove(dl)
-            m = "https://telegra.ph" + variable[0]
+            m = f"https://graph.org{variable[0]}"
         elif wut == "video":
             if r.media.document.size > 8 * 1000 * 1000:
                 return await eor(x, get_string("com_4"), time=5)
             dl = await r.download_media()
             variable = uf(dl)
             os.remove(dl)
-            m = "https://telegra.ph" + variable[0]
+            m = f"https://graph.org{variable[0]}"
         elif wut == "web":
             m = None
         else:
